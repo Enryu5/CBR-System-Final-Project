@@ -32,7 +32,7 @@ To run or develop the system locally:
 3. Install dependencies
    ```bash
    pip install -r requirements.txt
-4. Configure environment variables
+4. Configure environment variables\n
    Duplicate .env.example, rename it to .env, and add your Groq API key.
 5. Run the application
    ```bash
