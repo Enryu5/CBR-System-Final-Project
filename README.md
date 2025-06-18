@@ -34,7 +34,7 @@ To run or develop the system locally:
    pip install -r requirements.txt
 4. Configure environment variables
    - Duplicate .env.example, rename it to .env, and add your Groq API key.
-   - To create Groq API key you can refer to [this](https://console.groq.com/docs/quickstart).
+   - To create Groq API key you can refer to [this](https://console.groq.com/docs/quickstart). You only need to create the API key, no need to do anything else
 6. Run the application
    ```bash
    streamlit run app.py
