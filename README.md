@@ -22,7 +22,7 @@ To run or develop the system locally:
 
 1. Clone the repository  
    ```bash
-   git clone https://github.com/Enryu5/CBR-System-Final-Project
+   git clone https://github.com/Enryu5/CBR-System-Final-Project.git
    cd CBR-System-Final-Project
 2. Create and activate a Python virtual environment
    ```bash
