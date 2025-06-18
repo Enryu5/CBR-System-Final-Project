@@ -126,6 +126,45 @@ Respond with ONLY the revised solution, no explanation.
     
     return revised_solution.strip()
 
+# Retaining
+def retain_new_case(user_case_description, revised_solution, case_base_path='Data/case_base_with_embeddings.json'):
+    """
+    Adds a new case to the case base with cleaned text and embeddings.
+    
+    Args:
+        user_case_description (str): Original user case description
+        revised_solution (str): AI-revised solution
+        case_base_path (str): Path to case base JSON file
+    """
+    # Load existing case base
+    with open(case_base_path, 'r') as f:
+        case_base = json.load(f)
+    
+    # Generate cleaned versions
+    question_clean = clean_text(user_case_description)
+    solution_clean = clean_text(revised_solution)
+    
+    # Generate embedding for the cleaned question
+    embedding = model.encode([question_clean])[0].tolist()  # Convert numpy array to list
+    
+    # Create new case (using first 60 chars as title)
+    new_case = {
+        "title": user_case_description[:60] + ("..." if len(user_case_description) > 60 else ""),
+        "question": user_case_description,
+        "solution": revised_solution,
+        "question_clean": question_clean,
+        "solution_clean": solution_clean,
+        "embedding": embedding
+    }
+    
+    # Add to case base
+    case_base.append(new_case)
+    
+    # Save updated case base
+    with open(case_base_path, 'w') as f:
+        json.dump(case_base, f, indent=2)
+    
+    return new_case
 
 # === Streamlit UI ===
 st.title("🔍 Laptop Case-Based Diagnosis")
@@ -152,5 +191,9 @@ if st.button("Find Solution"):
                 revised = revise_solution_with_groq(user_input, case["question"], case["solution"])
                 st.write("**🔧 Revised Solution:**")
                 st.code(revised)
+                # NEW: Retain the new case if user approves
+                if st.button("✅ Save this solution to case base"):
+                    new_case = retain_new_case(user_input, revised)
+                    st.success(f"📁 Case saved! Total cases: {len(case_base)+1}")
         else:
             st.error("❌ No sufficiently similar case found.")
