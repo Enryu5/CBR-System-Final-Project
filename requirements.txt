@@ -1,0 +1,8 @@
+numpy 
+beautifulsoup4 
+sentence-transformers 
+scikit-learn 
+emoji
+streamlit
+groq
+python-dotenv
